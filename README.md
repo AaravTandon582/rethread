@@ -11,22 +11,22 @@ npm ci
 npm run dev
 ```
 
-Open the printed loopback URL. Visitors can generate directly without supplying a key. The Site owner configures `GEMINI_API_KEY` as a secret in the hosting runtime; the key never appears in the browser, API request body, or repository. Google receives the photograph and a rendered view of the selected measured stitch plan when the visitor clicks Reimagine.
+Open the printed loopback URL. Uploads, measured stitch previews, and repair-guide exports work in the browser without a Gemini key, account, or paid quota. The optional live AI concept uses the server secret `GEMINI_API_KEY`; visitors never enter a key. Google receives the photograph and rendered stitch reference only if a visitor chooses this separate feature. It may be unavailable when the project has no image quota and may incur charges if the owner's Google project is paid.
 
-The public demo permits 25 generation attempts per UTC day and 3 per minute, shared across visitors. D1 atomically reserves each attempt before Google is called, including attempts that later fail. Missing secret or database configuration fails closed. Local development needs the same server bindings and migration; no production key is committed.
+The optional public AI feature permits 25 generation attempts per UTC day and 3 per minute, shared across visitors. D1 atomically reserves each attempt before Google is called, including attempts that later fail. Missing secret or database configuration disables this optional feature; local stitch previews and guide exports still work. Local development needs the same server bindings and migration for live AI calls; no production key is committed.
 
 Live demo: https://rethread-mending-studio.noblellama8.chatgpt.site
 
 
 ## Architecture
 
-- `app/page.tsx`: active studio, photo upload, editable region, comparison, controls and exports.
+- `app/page.tsx`: active studio, photo upload, editable region, free local stitch preview, optional AI call, and exports.
 - `app/api/repair/route.ts`: Zod validation, same-origin enforcement, constrained Gemini 3.1 Flash Image call, bounded inputs and timeout, sanitized errors.
 - `lib/image.ts`: image normalization and localized pixel compositing. The five-pixel feather is entirely inside the selected rectangle. Outside pixels remain unchanged relative to the normalized source.
 - `lib/repair-engine.ts`: one repair plan supplies the UI, blueprint reference sent to Gemini, JSON export, and actual-size SVG.
 - `lib/generation-budget.ts`: shared atomic D1 usage limits. The old `/api/generate` endpoint returns 410.
 
-No account records or upload persistence. D1 stores only aggregate usage counters. Reloading discards the current photograph and result. The server secret is managed separately by the Site owner. The provided denim comparison is a prepared example, not a live API call. Image generation receives both the garment and a rendered view of the stitch plan to guide its composition. The downloadable measurements and stitch locations remain deterministic; a generative preview may interpret the motif differently and is not proof of sewing durability.
+No account records or upload persistence. D1 stores only aggregate usage counters. Reloading discards the current photograph and result. The server secret is managed separately by the Site owner. The provided denim comparison is a prepared example, not a live API call. The free stitch preview overlays the deterministic plan directly onto the uploaded photo on-device. Optional image generation receives both the garment and rendered stitch plan. Downloaded measurements and stitch locations remain deterministic; a generative preview may interpret the motif differently and is not proof of sewing durability.
 
 ## Validation
 
@@ -40,7 +40,7 @@ The project includes geometry tests. Browser QA also exercises uploads, exports,
 
 ## Demo and submission
 
-See `docs/SUBMISSION.md` for an editable Devpost draft and `docs/DEMO-SCRIPT.md` for a 2:45 demo outline. Fill in real team members, accessible GitHub source, and the public YouTube link. Preserve actual build dates and the organizer's extension confirmation. Do not cross-submit this project under the supplied event rules.
+See `docs/SUBMISSION.md` for an editable Devpost draft and `docs/DEMO-SCRIPT.md` for a silent demo outline. Fill in real team members, accessible GitHub source, and the public YouTube link. Preserve actual build dates and the organizer's extension confirmation. Do not cross-submit this project under the supplied event rules.
 
 ## Limitations
 

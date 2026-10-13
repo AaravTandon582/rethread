@@ -31,27 +31,27 @@ This is the design rationale. Add your own real personal experience or user inte
 2. Lets the user mark a rectangular repair region using pointer input or numeric controls.
 3. Takes measured tear width, height, and a sound-fabric margin.
 4. Offers three stitch motifs and three patch colors.
-5. Builds one measured repair plan, renders its exact patch color, tear footprint, and calculated stitch geometry as a visual reference, and sends that reference alongside the photograph and constrained prompt to Gemini 3.1 Flash Image.
-6. Composites only the selected region into the original normalized image, blending five pixels inward at the edge.
-7. Shows a before/after comparison and a boundary color-difference diagnostic.
+5. Builds a measured plan and draws its stitches directly over the user's photo locally. This free preview needs no API key or billing.
+6. Offers optional Gemini 3.1 Flash Image generation separately; when selected, it sends the photo and rendered stitch reference through the server secret.
+7. For live AI results, composites only the selected region into the normalized image and shows a boundary color-difference diagnostic.
 8. Exports that same deterministic physical stitch layout as a downloadable A4 SVG with a 50 mm calibration ruler, plus a JSON repair plan.
 
 ## How we built it
 
 React and TypeScript on Vinext, deployed as a Cloudflare Worker through Sites. A validated server route mediates the image model. Browser canvas handles normalization and localized compositing. A separate geometry engine constructs stitch coordinates in millimeters.
 
-Generative AI produces the visual repair concept. It does not generate the dimensionally precise SVG. Separating these responsibilities lets the application constrain pixel changes and export a measured layout without pretending the model understands exact sewing dimensions.
+The free path renders the measured concept locally. Optional generative AI produces a separate visual repair concept; it does not generate the dimensionally precise SVG.
 
 ## Engineering challenges
 
-- A generative model can change lighting, framing, or fabric outside the target. ReThread copies only the selected rectangle and leaves the other source pixels untouched.
+- A generative model can change lighting, framing, or fabric outside the target. For live AI results, ReThread copies only the selected rectangle and leaves the other source pixels untouched.
 - A visual model can still vary even with a stitch reference image. The deterministic printable guide remains the source of physical measurements and coordinates; the preview is an idea to inspect rather than a promise of exact stitch placement.
 - Screen pixels do not establish physical scale. Users enter ruler measurements; the guide is emitted in millimeters and includes a print calibration line.
 - Provider failures must not destroy the original photo. The app keeps the source and displays actionable errors.
 
 ## Validation and honest limits
 
-Automated checks cover dimensions, region bounds, stitch positions, SVG units, browser interaction, and exact pixel preservation outside a repair rectangle using a fixture response. Provider failure behavior is also exercised. A live paid Gemini request still needs to be recorded with the server secret; fixtures do not prove live model access or output quality.
+Automated checks cover dimensions, region bounds, stitch positions, SVG units, browser interaction, and exact pixel preservation outside a repair rectangle using a fixture response. Provider failure behavior is also exercised. A successful live Gemini request still needs to be recorded before claiming live generation; fixtures do not prove live model access or output quality.
 
 No claims of repair durability, validated sewing instruction, measured waste reduction, trained custom models, or user adoption. Photographs should be taken straight overhead; measurements must be checked by the maker. Repair suitability depends on the fabric and damage.
 
@@ -59,11 +59,11 @@ No claims of repair durability, validated sewing instruction, measured waste red
 
 | Criterion | Evidence to show judges |
 | --- | --- |
-| Technical execution | Validated generation endpoint, pixel-preserving compositor, boundary metric, geometry engine, tests |
+| Technical execution | Validated optional generation endpoint, local stitch renderer, pixel-preserving AI compositor, boundary metric, geometry engine, tests |
 | Innovation | A workflow connecting repair visualization to physical stitch planning |
-| Image AI theme | The user's photograph and image-to-image generation are central to the live repair concept |
+| Image AI theme | A prepared visual concept introduces image AI; optional live Gemini uses the user's photo and stitch reference |
 | Impact | A defined user: someone deciding how to repair an everyday garment; demonstrate one real repair if possible |
-| Presentation | A clear before/after, a visible live call, and a printed guide in under three minutes |
+| Presentation | An honest, silent prepared example, free stitch preview, and guide in under three minutes; label live output accurately |
 
 ## Resources and attribution
 
