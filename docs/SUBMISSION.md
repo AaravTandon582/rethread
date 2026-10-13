@@ -31,7 +31,7 @@ This is the design rationale. Add your own real personal experience or user inte
 2. Lets the user mark a rectangular repair region using pointer input or numeric controls.
 3. Takes measured tear width, height, and a sound-fabric margin.
 4. Offers three stitch motifs and three patch colors.
-5. Sends the photograph and constrained repair prompt to Gemini 2.5 Flash Image.
+5. Sends the photograph and constrained repair prompt to Gemini 3.1 Flash Image.
 6. Composites only the selected region into the original normalized image, blending five pixels inward at the edge.
 7. Shows a before/after comparison and a boundary color-difference diagnostic.
 8. Creates a deterministic physical stitch layout and downloadable A4 SVG with a 50 mm calibration ruler, plus a JSON repair plan.

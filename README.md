@@ -21,7 +21,7 @@ Live demo: https://rethread-mending-studio.noblellama8.chatgpt.site
 ## Architecture
 
 - `app/page.tsx`: active studio, photo upload, editable region, comparison, controls and exports.
-- `app/api/repair/route.ts`: Zod validation, same-origin enforcement, constrained Gemini 2.5 Flash Image call, bounded inputs and timeout, sanitized errors.
+- `app/api/repair/route.ts`: Zod validation, same-origin enforcement, constrained Gemini 3.1 Flash Image call, bounded inputs and timeout, sanitized errors.
 - `lib/image.ts`: image normalization and localized pixel compositing. The five-pixel feather is entirely inside the selected rectangle. Outside pixels remain unchanged relative to the normalized source.
 - `lib/repair-engine.ts`: dimensions, stitch coordinates, constrained prompt and actual-size SVG.
 - `lib/generation-budget.ts`: shared atomic D1 usage limits. The old `/api/generate` endpoint returns 410.
