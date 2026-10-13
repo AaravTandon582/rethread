@@ -1,4 +1,9 @@
-// Intentionally empty by default.
-// Add Drizzle tables here when the site actually needs a database.
-// See examples/d1/db/schema.ts for an opt-in example.
-export {};
+import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+
+// Aggregate counters only: no photographs, keys, or visitor identifiers.
+export const generationUsage = sqliteTable('generation_usage', {
+  day: text('day').primaryKey(),
+  attempts: integer('attempts').notNull(),
+  minute: integer('minute').notNull(),
+  minuteAttempts: integer('minute_attempts').notNull(),
+});

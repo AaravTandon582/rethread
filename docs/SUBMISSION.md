@@ -1,5 +1,10 @@
 # ReThread — Make the tear the detail
 
+## Links
+
+- Demo: https://rethread-mending-studio.noblellama8.chatgpt.site
+- Source: https://github.com/AaravTandon582/rethread
+
 ## Team
 
 Solo builder: AaravTandon582 (GitHub username). No additional team members.
@@ -8,7 +13,7 @@ Solo builder: AaravTandon582 (GitHub username). No additional team members.
 
 The owner confirmed on October 12, 2026 that they have an extension / can still submit. Preserve that confirmation with the event organizers. Do not backdate commits or imply work was completed earlier. This project must not be cross-submitted to another hackathon under the supplied Banana Hacks rules.
 
-Before submission, verify your Devpost profile name and fill in the GitHub URL, hosted demo URL, and public YouTube URL. Record a real live image-generation run with a working Gemini key. The prepared denim comparison must be identified as an example.
+Before submission, verify your Devpost profile name and fill in the GitHub URL, hosted demo URL, and public YouTube URL. Record a real live image-generation run using the server-configured Gemini key. The prepared denim comparison must be identified as an example.
 
 ## Short pitch
 
@@ -46,7 +51,7 @@ Generative AI produces the visual repair concept. It does not generate the dimen
 
 ## Validation and honest limits
 
-Automated checks cover dimensions, region bounds, stitch positions, SVG units, browser interaction, and exact pixel preservation outside a repair rectangle using a fixture response. Provider failure behavior is also exercised. A live paid Gemini request still needs to be recorded with the user's key; fixtures do not prove live model access or output quality.
+Automated checks cover dimensions, region bounds, stitch positions, SVG units, browser interaction, and exact pixel preservation outside a repair rectangle using a fixture response. Provider failure behavior is also exercised. A live paid Gemini request still needs to be recorded with the server secret; fixtures do not prove live model access or output quality.
 
 No claims of repair durability, validated sewing instruction, measured waste reduction, trained custom models, or user adoption. Photographs should be taken straight overhead; measurements must be checked by the maker. Repair suitability depends on the fabric and damage.
 

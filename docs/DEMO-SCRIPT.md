@@ -1,6 +1,6 @@
 # ReThread demo — target 2 minutes 45 seconds
 
-Record the real interface. Have the Gemini key connected before recording so the secret is never visible. Do not present the included example or a mocked request as live generation. Keep the final public YouTube upload below 3:00; verify the actual exported runtime.
+Record the real interface. The Gemini key is configured on the server; visitors do not enter credentials. Do not present the included example or a mocked request as live generation. Keep the final public YouTube upload below 3:00; verify the actual exported runtime.
 
 ## 0:00–0:20 — The problem and inspiration
 
