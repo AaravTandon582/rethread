@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open the printed loopback URL. Visitors can generate directly without supplying a key. The Site owner configures `GEMINI_API_KEY` as a secret in the hosting runtime; the key never appears in the browser, API request body, or repository. Google receives the photograph when the visitor clicks Reimagine.
+Open the printed loopback URL. Visitors can generate directly without supplying a key. The Site owner configures `GEMINI_API_KEY` as a secret in the hosting runtime; the key never appears in the browser, API request body, or repository. Google receives the photograph and a rendered view of the selected measured stitch plan when the visitor clicks Reimagine.
 
 The public demo permits 25 generation attempts per UTC day and 3 per minute, shared across visitors. D1 atomically reserves each attempt before Google is called, including attempts that later fail. Missing secret or database configuration fails closed. Local development needs the same server bindings and migration; no production key is committed.
 
@@ -23,10 +23,10 @@ Live demo: https://rethread-mending-studio.noblellama8.chatgpt.site
 - `app/page.tsx`: active studio, photo upload, editable region, comparison, controls and exports.
 - `app/api/repair/route.ts`: Zod validation, same-origin enforcement, constrained Gemini 3.1 Flash Image call, bounded inputs and timeout, sanitized errors.
 - `lib/image.ts`: image normalization and localized pixel compositing. The five-pixel feather is entirely inside the selected rectangle. Outside pixels remain unchanged relative to the normalized source.
-- `lib/repair-engine.ts`: dimensions, stitch coordinates, constrained prompt and actual-size SVG.
+- `lib/repair-engine.ts`: one repair plan supplies the UI, blueprint reference sent to Gemini, JSON export, and actual-size SVG.
 - `lib/generation-budget.ts`: shared atomic D1 usage limits. The old `/api/generate` endpoint returns 410.
 
-No account records or upload persistence. D1 stores only aggregate usage counters. Reloading discards the current photograph and result. The server secret is managed separately by the Site owner. The provided denim comparison is a prepared example, not a live API call. Image generation is a visual concept; the printable template is calculated independently and is not traced from the model output.
+No account records or upload persistence. D1 stores only aggregate usage counters. Reloading discards the current photograph and result. The server secret is managed separately by the Site owner. The provided denim comparison is a prepared example, not a live API call. Image generation receives both the garment and a rendered view of the stitch plan to guide its composition. The downloadable measurements and stitch locations remain deterministic; a generative preview may interpret the motif differently and is not proof of sewing durability.
 
 ## Validation
 

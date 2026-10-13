@@ -1,9 +1,11 @@
 import {env} from 'cloudflare:workers';
 import {reserveGeneration} from '@/lib/generation-budget';
 import {z} from 'zod';
-import {generationPrompt,patchDimensions,validRegion} from '@/lib/repair-engine';
+import {createRepairPlan,generationPrompt,validRegion} from '@/lib/repair-engine';
 export const dynamic='force-dynamic';
-const schema=z.object({image:z.string().max(6500000).regex(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/),region:z.object({x:z.number(),y:z.number(),w:z.number(),h:z.number()}).refine(validRegion),pattern:z.enum(['daisy','sashiko','cross']),color:z.enum(['sage green','indigo blue','terracotta']),tearWidth:z.number().min(5).max(120),tearHeight:z.number().min(5).max(120),margin:z.number().min(5).max(20)}).strict();
+const regionSchema=z.object({x:z.number(),y:z.number(),w:z.number(),h:z.number()}).strict().refine(validRegion);
+const planSchema=z.object({region:regionSchema,pattern:z.enum(['daisy','sashiko','cross']),color:z.enum(['sage green','indigo blue','terracotta']),tearWidthMm:z.number().min(5).max(120),tearHeightMm:z.number().min(5).max(120),marginMm:z.number().min(5).max(20)}).strict();
+const schema=z.object({image:z.string().max(6500000).regex(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/),planImage:z.string().max(400000).regex(/^data:image\/png;base64,[A-Za-z0-9+/=]+$/),plan:planSchema}).strict();
 const headers={'Cache-Control':'no-store'};
 export async function POST(request:Request){
  const origin=request.headers.get('origin');if(!origin||origin!==new URL(request.url).origin)return Response.json({error:'Use the studio to generate a repair.'},{status:403,headers});
@@ -15,8 +17,8 @@ export async function POST(request:Request){
   const apiKey=env.GEMINI_API_KEY?.trim();
   if(!apiKey || !env.DB)return Response.json({error:'Image generation is temporarily unavailable. Please try again later.'},{status:503,headers});
   if(!await reserveGeneration(env.DB))return Response.json({error:'The shared demo generation limit has been reached. Please try later; the daily allowance resets at midnight UTC.'},{status:429,headers:{...headers,'Retry-After':'60'}});
-  const {image,region,pattern,color,tearWidth,tearHeight,margin}=parsed.data;const d=patchDimensions(tearWidth,tearHeight,margin);const match=image.match(/^data:(image\/[a-z]+);base64,(.+)$/)!;
-  const response=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':apiKey},body:JSON.stringify({contents:[{parts:[{text:generationPrompt(pattern,region,color,d.width,d.height)},{inlineData:{mimeType:match[1],data:match[2]}}]}],generationConfig:{responseModalities:['TEXT','IMAGE']}}),signal:AbortSignal.timeout(110000)});
+  const {image,planImage,plan}=parsed.data;const repairPlan=createRepairPlan(plan);const imageMatch=image.match(/^data:(image\/[a-z]+);base64,(.+)$/)!;const planMatch=planImage.match(/^data:(image\/png);base64,(.+)$/)!;
+  const response=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':apiKey},body:JSON.stringify({contents:[{parts:[{text:generationPrompt(repairPlan)},{inlineData:{mimeType:imageMatch[1],data:imageMatch[2]}},{inlineData:{mimeType:planMatch[1],data:planMatch[2]}}]}],generationConfig:{responseModalities:['TEXT','IMAGE']}}),signal:AbortSignal.timeout(110000)});
   if(!response.ok){const status=response.status;return Response.json({error:status===429?'Image generation is temporarily at capacity. Please try again later.':status===401||status===403?'The image service is temporarily unavailable. Please try again later.':'The image provider could not complete the repair. Please try again.',providerStatus:status},{status:status===429?429:502,headers});}
   const payload=await response.json() as {candidates?:{content?:{parts?:{inlineData?:{mimeType:string;data:string}}[]}}[]};
   const result=payload.candidates?.[0]?.content?.parts?.find(p=>p.inlineData?.mimeType.startsWith('image/'))?.inlineData;

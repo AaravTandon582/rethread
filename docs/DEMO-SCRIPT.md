@@ -1,40 +1,48 @@
-# ReThread demo — target 2 minutes 45 seconds
+# ReThread demo — silent cut, target 2 minutes 35 seconds
 
-Record the real interface. The Gemini key is configured on the server; visitors do not enter credentials. Do not present the included example or a mocked request as live generation. Keep the final public YouTube upload below 3:00; verify the actual exported runtime.
+Use no narration, voiceover, or audio track. Tell the story with smooth cuts or short dissolves and readable on-screen captions. Record the real interface and a real generation; label prepared examples and any time cuts. Keep the final public YouTube runtime below three minutes, including the outro. The provided `outputs/rethread-silent-demo.mp4` is a labeled workflow example, not evidence of live generation.
 
-## 0:00–0:20 — The problem and inspiration
+## 0:00–0:12 — Problem and inspiration
 
-Hold up one worn garment, ideally your own. “This tear does not have to be the end of these jeans. ReThread helps you imagine a repair you would actually want to wear—and gives you a guide to begin making it.”
+Show a real worn garment and the title. Caption: “A small tear. A garment worth keeping.” Follow with: “ReThread connects a visual repair idea to a measured stitch plan.”
 
-## 0:20–0:45 — Start with the real garment
+## 0:12–0:32 — Start with the garment
 
-Upload a clear, overhead photograph. Mark the full patch area. Show the ruler measurement and enter the tear width and height. “The image gives us context, and actual measurements give us scale.”
+Upload an actual overhead photograph. Mark the repair area and enter its ruler measurements. Captions: “Start with your garment.” “Measure the damage.”
 
-## 0:45–1:15 — Generative AI is the core
+## 0:32–0:48 — Choose the plan
 
-Choose a stitch motif and color. Click Reimagine. “Gemini edits the image based on this garment, region, and repair design.” If generation is slow, show a clearly labeled time cut in the recording; never use a fake progress result.
+Select a motif and color. Show the measured blueprint and tear footprint. Caption: “One measured stitch plan guides the preview and printable pattern.”
 
-## 1:15–1:40 — Show the result and engineering
+## 0:48–1:10 — Show generative image AI
 
-Drag the before/after slider. “The model might change more than we asked. Our compositor restores every pixel outside this repair rectangle and blends the inside edge. This boundary metric helps us notice mismatches.” Show a poor edge honestly if it occurs.
+Click Reimagine and show the actual returned image. Caption: “Gemini receives the garment and a visual reference of the repair plan.” Use a labeled time cut if needed. Never replace an unsuccessful live request with the prepared example.
 
-## 1:40–2:10 — From image to physical action
+## 1:10–1:28 — Explain preservation
 
-Open Stitch blueprint. Change a measurement. Download the SVG and show its calibration ruler. “A geometry engine places these stitches in millimeters. This is a template, not a claim that we extracted exact embroidery from the image.” Show a printed pattern or a real sewn sample if available.
+Move the before and after slider and show the image diagnostics. Caption: “The compositor limits edits to the selected area.” “Inspect the concept before sewing.”
 
-## 2:10–2:35 — Design process and resources
+## 1:28–1:48 — Make the guide useful
 
-“We chose visible mending to connect visual imagination with a practical next step. We used React, TypeScript, Gemini image generation, browser canvas, and a measured SVG generator. We tested the controls, sizing, provider failure handling, and pixel preservation.” Mention actual challenges encountered and AI coding assistance as appropriate.
+Show the blueprint, then download the SVG and JSON. Caption: “Stitch coordinates come from a measured layout.” “Print at 100% and check the 50 mm ruler.” Do not claim the model's embroidered details match every mark.
 
-## 2:35–2:45 — Close
+## 1:48–2:08 — Show real-world evidence
 
-“Our next step is testing these guides with people who mend clothes. Good things deserve another chapter.” Show team names, the repository, and the demo link.
+If a repair has been sewn, show it beside its exported guide. If user feedback exists, show one short, accurately attributed finding. If either has not happened, use this time to show another honest workflow detail or current limitation.
 
-## Final checklist
+## 2:08–2:23 — Design and resources
 
-- Real team members listed; no placeholders in the submitted description.
-- Public YouTube video is 2:59 or less including outro.
-- GitHub source accessible to judges; no API keys or local runtime files.
-- Devpost description includes brainstorming, inspiration, design process, resources, and final product.
-- Organizer extension confirmed; correct build dates retained; no cross-submission.
-- Live AI generation verified; example imagery labeled.
+Show the controls and code or resource credits. Captions cover the actual design process and resources used: React, TypeScript, Gemini image generation, browser canvas, and a measured SVG generator. Mention AI coding assistance if the organizer requires it.
+
+## 2:23–2:35 — Close
+
+Show the builder's correct team credit, repository, live demo link, and project name. Caption: “ReThread — make the tear the detail.”
+
+## Final cut checks
+
+- No narration, voiceover, music, or ambient audio; verify the exported file has no audio stream.
+- Runtime is below 3:00, including title and link cards.
+- The live generation shown actually succeeded; prepared imagery and time cuts are labeled.
+- Inspiration, brainstorming/design process, resources, and the final product appear as captions or clear visuals.
+- Creator and team credit, public source, and demo links are correct.
+- Build dates remain truthful; do not imply an unverified physical repair or user study.

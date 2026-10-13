@@ -31,10 +31,10 @@ This is the design rationale. Add your own real personal experience or user inte
 2. Lets the user mark a rectangular repair region using pointer input or numeric controls.
 3. Takes measured tear width, height, and a sound-fabric margin.
 4. Offers three stitch motifs and three patch colors.
-5. Sends the photograph and constrained repair prompt to Gemini 3.1 Flash Image.
+5. Builds one measured repair plan, renders its exact patch color, tear footprint, and calculated stitch geometry as a visual reference, and sends that reference alongside the photograph and constrained prompt to Gemini 3.1 Flash Image.
 6. Composites only the selected region into the original normalized image, blending five pixels inward at the edge.
 7. Shows a before/after comparison and a boundary color-difference diagnostic.
-8. Creates a deterministic physical stitch layout and downloadable A4 SVG with a 50 mm calibration ruler, plus a JSON repair plan.
+8. Exports that same deterministic physical stitch layout as a downloadable A4 SVG with a 50 mm calibration ruler, plus a JSON repair plan.
 
 ## How we built it
 
@@ -45,7 +45,7 @@ Generative AI produces the visual repair concept. It does not generate the dimen
 ## Engineering challenges
 
 - A generative model can change lighting, framing, or fabric outside the target. ReThread copies only the selected rectangle and leaves the other source pixels untouched.
-- Generated imagery can look feasible without matching the pattern. The printable guide is explicitly a motif template rather than a trace of generated embroidery.
+- A visual model can still vary even with a stitch reference image. The deterministic printable guide remains the source of physical measurements and coordinates; the preview is an idea to inspect rather than a promise of exact stitch placement.
 - Screen pixels do not establish physical scale. Users enter ruler measurements; the guide is emitted in millimeters and includes a print calibration line.
 - Provider failures must not destroy the original photo. The app keeps the source and displays actionable errors.
 

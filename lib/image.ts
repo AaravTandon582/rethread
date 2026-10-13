@@ -7,6 +7,7 @@ export async function normalizeImage(file:File) {
   try{const im=await loadImage(url);const scale=Math.min(1,1280/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*scale);c.height=Math.round(im.height*scale);const ctx=c.getContext('2d')!;ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(im,0,0,c.width,c.height);return c.toDataURL('image/jpeg',.9);}finally{URL.revokeObjectURL(url);}
 }
 export async function imageData(src:string){if(src.startsWith('data:'))return src;const blob=await(await fetch(src)).blob();return new Promise<string>((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result));r.onerror=reject;r.readAsDataURL(blob);});}
+export async function svgToPngData(svg:string){const image=await loadImage(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`);const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d');if(!ctx)throw new Error('This browser could not prepare the stitch reference.');ctx.drawImage(image,0,0);return canvas.toDataURL('image/png');}
 export async function compositeRepair(original:string,generated:string,region:Region){
  const [a,b]=await Promise.all([loadImage(original),loadImage(generated)]);
  const c=document.createElement('canvas');c.width=a.width;c.height=a.height;const ctx=c.getContext('2d')!;ctx.drawImage(a,0,0);
